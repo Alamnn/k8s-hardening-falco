@@ -1,0 +1,26 @@
+# Kubernetes Manifest Security Audit Comparison (Trivy KSV / Kubescape NSA-CISA)
+
+## 1. Compliance Score Summary
+
+| Metric | `manifests/vulnerable/` | `manifests/hardened/` | Delta |
+|---|---|---|---|
+| **Controls Evaluated** | 12 | 12 | — |
+| **Failed Controls** | **12 / 12** (4 CRITICAL, 7 HIGH, 1 MEDIUM) | **0 / 12** | **-12 findings** |
+| **Compliance Score** | **0.0%** | **100.0%** | **+100.0%** |
+
+## 2. Control-by-Control Diff
+
+| Check ID | Severity | Vulnerable Manifest | Hardened Manifest | Control Description |
+|---|---|---|---|---|
+| `KSV001` | **CRITICAL** | `FAIL` | **`PASS`** | allowPrivilegeEscalation is not set to false |
+| `KSV005` | **CRITICAL** | `FAIL` | **`PASS`** | Container runs with privileged: true |
+| `KSV006` | **CRITICAL** | `FAIL` | **`PASS`** | Pod mounts hostPath volume (/ host filesystem escape) |
+| `KSV008` | **HIGH** | `FAIL` | **`PASS`** | Pod shares hostPID namespace (hostPID: true) |
+| `KSV009` | **HIGH** | `FAIL` | **`PASS`** | Pod shares hostNetwork namespace (hostNetwork: true) |
+| `KSV012` | **HIGH** | `FAIL` | **`PASS`** | Container runs as root (runAsNonRoot is false or runAsUser is 0) |
+| `KSV014` | **HIGH** | `FAIL` | **`PASS`** | Root filesystem is writable (readOnlyRootFilesystem: false) |
+| `KSV022` | **HIGH** | `FAIL` | **`PASS`** | Linux capabilities are not dropped (capabilities.drop != ['ALL']) |
+| `KSV030` | **MEDIUM** | `FAIL` | **`PASS`** | Seccomp profile RuntimeDefault is not enforced |
+| `KSV036` | **HIGH** | `FAIL` | **`PASS`** | ServiceAccount token is auto-mounted (automountServiceAccountToken: true) |
+| `KSV041` | **CRITICAL** | `FAIL` | **`PASS`** | RBAC binds ServiceAccount to cluster-admin ClusterRole |
+| `KSV050` | **HIGH** | `FAIL` | **`PASS`** | Namespace lacks default-deny NetworkPolicy |

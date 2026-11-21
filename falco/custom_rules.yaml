@@ -1,0 +1,37 @@
+# Custom Falco Runtime Security Rules for Kubernetes Workloads
+# File: falco/custom_rules.yaml
+- rule: K8s Interactive Shell Spawned in Container
+  desc: Detects an interactive shell (sh, bash, ash, zsh) spawned inside a running application container (MITRE T1609)
+  condition: >
+    spawned_process and container and
+    proc.name in (sh, bash, ash, zsh, dash) and
+    not proc.pname in (runc, containerd-shim)
+  output: >
+    CRITICAL Falco Alert: Interactive shell spawned in container
+    (user=%user.name pod=%k8s.pod.name ns=%k8s.ns.name cmd=%proc.cmdline container=%container.id)
+  priority: WARNING
+  tags: [container, shell, mitre_execution, T1609]
+
+- rule: K8s Container Read Sensitive Shadow File
+  desc: Detects any container process reading /etc/shadow for credential extraction (MITRE T1003.008)
+  condition: >
+    open_read and container and
+    fd.name = /etc/shadow and
+    not proc.name in (sshd, login, su, sudo)
+  output: >
+    CRITICAL Falco Alert: Sensitive file /etc/shadow read inside container
+    (user=%user.name pod=%k8s.pod.name ns=%k8s.ns.name proc=%proc.cmdline file=%fd.name)
+  priority: CRITICAL
+  tags: [container, credential_access, mitre_credential_access, T1003.008]
+
+- rule: K8s Unexpected Outbound Connection from Payment Pod
+  desc: Detects outbound TCP connections from payment-api pods to external non-DNS endpoints (MITRE T1071)
+  condition: >
+    outbound and container and
+    k8s.pod.label.app = "payment-api" and
+    not fd.sport = 53 and not fd.dport = 53
+  output: >
+    HIGH Falco Alert: Unexpected outbound network connection from payment-api pod
+    (user=%user.name pod=%k8s.pod.name ns=%k8s.ns.name dest=%fd.rip:%fd.rport proc=%proc.cmdline)
+  priority: ERROR
+  tags: [container, network, exfiltration, T1071]

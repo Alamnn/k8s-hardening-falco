@@ -1,0 +1,74 @@
+[
+  {
+    "id": "KSV001",
+    "severity": "CRITICAL",
+    "status": "FAIL",
+    "title": "allowPrivilegeEscalation is not set to false"
+  },
+  {
+    "id": "KSV005",
+    "severity": "CRITICAL",
+    "status": "FAIL",
+    "title": "Container runs with privileged: true"
+  },
+  {
+    "id": "KSV006",
+    "severity": "CRITICAL",
+    "status": "FAIL",
+    "title": "Pod mounts hostPath volume (/ host filesystem escape)"
+  },
+  {
+    "id": "KSV008",
+    "severity": "HIGH",
+    "status": "FAIL",
+    "title": "Pod shares hostPID namespace (hostPID: true)"
+  },
+  {
+    "id": "KSV009",
+    "severity": "HIGH",
+    "status": "FAIL",
+    "title": "Pod shares hostNetwork namespace (hostNetwork: true)"
+  },
+  {
+    "id": "KSV012",
+    "severity": "HIGH",
+    "status": "FAIL",
+    "title": "Container runs as root (runAsNonRoot is false or runAsUser is 0)"
+  },
+  {
+    "id": "KSV014",
+    "severity": "HIGH",
+    "status": "FAIL",
+    "title": "Root filesystem is writable (readOnlyRootFilesystem: false)"
+  },
+  {
+    "id": "KSV022",
+    "severity": "HIGH",
+    "status": "FAIL",
+    "title": "Linux capabilities are not dropped (capabilities.drop != ['ALL'])"
+  },
+  {
+    "id": "KSV030",
+    "severity": "MEDIUM",
+    "status": "FAIL",
+    "title": "Seccomp profile RuntimeDefault is not enforced"
+  },
+  {
+    "id": "KSV036",
+    "severity": "HIGH",
+    "status": "FAIL",
+    "title": "ServiceAccount token is auto-mounted (automountServiceAccountToken: true)"
+  },
+  {
+    "id": "KSV041",
+    "severity": "CRITICAL",
+    "status": "FAIL",
+    "title": "RBAC binds ServiceAccount to cluster-admin ClusterRole"
+  },
+  {
+    "id": "KSV050",
+    "severity": "HIGH",
+    "status": "FAIL",
+    "title": "Namespace lacks default-deny NetworkPolicy"
+  }
+]
